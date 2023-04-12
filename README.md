@@ -10,4 +10,5 @@
     <li>Создание проекта по имени "first-project.loc"</li>
     <li>Router</li>
     <li>Контроллер</li>
+    <li>Миграция</li>
 </ul>
