@@ -7,7 +7,12 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-	public function index()
+	//	http://first-project.loc/posts
+	public function index() {
+		$posts = Post::all();
+		return view('posts', compact('posts'));
+	}
+	public function index2()
 	{
 		// $post = \App\Models\Post::find(1);
 		$post = \App\Models\Post::where('likes', 10)->first();
