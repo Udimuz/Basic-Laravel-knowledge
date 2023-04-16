@@ -10,7 +10,7 @@ class PostController extends Controller
 	//	http://first-project.loc/posts
 	public function index() {
 		$posts = Post::all();
-		return view('posts', compact('posts'));
+		return view('post.index', compact('posts'));
 	}
 	public function index2()
 	{
