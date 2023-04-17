@@ -1,6 +1,7 @@
 @extends('layouts.main')
 @section('content')
     <h2 class="text-center">Сообщения</h2>
+    <p><a href="{{route('post.create')}}" class="btn btn-primary">Создать</a></p>
     <table class="table table-bordered border-primary">
         <thead>
         <tr class="table-secondary">
@@ -16,7 +17,7 @@
         @foreach($posts as $post)
             <tr>
                 <th scope="row" class="text-center">{{ $post->id }}</th>
-                <td>{{ $post->title }}</td>
+                <td><a href="{{ route('post.show', $post->id) }}"><b>{{ $post->title }}</b></a></td>
                 <td>{{ $post->content }}</td>
                 <td>{{ $post->image }}</td>
                 <td class="text-center">{{ $post->likes }}</td>

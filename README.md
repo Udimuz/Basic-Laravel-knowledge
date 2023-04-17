@@ -15,5 +15,6 @@
     <li>Модель</li>
     <li>13. Миграция - внесение изменений</li>
     <li>View - система шаблонов</li>
-    <li>Подключение Bootstrap в Laravel</li>
+    <li>16. Подключение Bootstrap в Laravel</li>
+    <li>17. CRUD через интерфейс. Имена по конвенции Laravel</li>
 </ul>

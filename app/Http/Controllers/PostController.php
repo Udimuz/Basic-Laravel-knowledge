@@ -27,22 +27,23 @@ class PostController extends Controller
 	//	http://first-project.loc/posts/create
 	public function create()
 	{
-		$postsArr = [
-			[
-				'title' => 'Title of post from Phpstorm',
-				'content' => 'Some interesting content',
-				'image' => 'image.jpg',
-				'likes' => '40',
-				'is_published' => '1',
-			],
-			[
-				'title' => 'another Title of post from Phpstorm',
-				'content' => 'another content',
-				'image' => 'another image.jpg',
-				'likes' => '50',
-				'is_published' => '1',
-			],
-		];
+		return view('post.create');
+//		$postsArr = [
+//			[
+//				'title' => 'Title of post from Phpstorm',
+//				'content' => 'Some interesting content',
+//				'image' => 'image.jpg',
+//				'likes' => '40',
+//				'is_published' => '1',
+//			],
+//			[
+//				'title' => 'another Title of post from Phpstorm',
+//				'content' => 'another content',
+//				'image' => 'another image.jpg',
+//				'likes' => '50',
+//				'is_published' => '1',
+//			],
+//		];
 //		Post::create([
 //			'title' => '1 of post from Phpstorm',
 //			'content' => '1 interesting content',
@@ -56,7 +57,18 @@ class PostController extends Controller
 	}
 
 	//	http://first-project.loc/posts/update
-	public function update()
+	public function update(Post $post)
+	{
+		$data = request()->validate([
+			'title' => 'required|string',
+			'content' => 'string',
+			'image' => 'string',
+		]);
+		// Далее, обновляем данные этой записи:
+		$post->update($data);
+		return redirect()->route('post.show', $post->id);
+	}
+	public function update2()
 	{
 		// Сначала нужно вытащить запись из таблицы, например по id = 4
 		$post = Post::find(4);	// Чтобы взять объект из базы
@@ -85,6 +97,12 @@ class PostController extends Controller
 		$post = Post::withTrashed()->find(4);	// Сначала нужно вытащить запись из таблицы, например по id = 4
 		$post->restore();	// Восстановление записи
 		dd('restored');
+	}
+
+	public function destroy(Post $post)
+	{
+		$post->delete();
+		return redirect()->route('post.index');
 	}
 
 	//	http://first-project.loc/posts/first_or_create
@@ -131,5 +149,29 @@ class PostController extends Controller
 		);
 		dump($post->title);
 		dd('Updated');
+	}
+
+	public function store()	//Request $request
+	{
+		//dd($request->title);
+		$data = request()->validate([
+			'title' => 'required|string',
+			'content' => 'string',
+			'image' => 'string',
+		]);
+		//dd($data);
+		Post::create($data);
+		return redirect()->route('post.index');
+	}
+
+	public function show(Post $post)
+	{
+		//dd($post);
+		return view('post.show', compact('post'));
+	}
+	public function edit(Post $post): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+	{
+		//dd($post);
+		return view('post.edit', compact('post'));
 	}
 }
