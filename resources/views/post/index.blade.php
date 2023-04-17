@@ -9,6 +9,7 @@
             <th scope="col">Title</th>
             <th scope="col">Content</th>
             <th scope="col">Image</th>
+            <th scope="col" class="text-center">Категория</th>
             <th scope="col" class="text-center">Likes</th>
             <th scope="col" class="text-center">Published</th>
         </tr>
@@ -20,6 +21,7 @@
                 <td><a href="{{ route('post.show', $post->id) }}"><b>{{ $post->title }}</b></a></td>
                 <td>{{ $post->content }}</td>
                 <td>{{ $post->image }}</td>
+                <td class="text-center">{{ $post->category_id }}</td>
                 <td class="text-center">{{ $post->likes }}</td>
                 <td class="text-center">{{ $post->is_published }}</td>
             </tr>
