@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\PostTag;
 use App\Models\Tag;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -40,7 +42,9 @@ class PostController extends Controller
 	//	http://first-project.loc/posts/create
 	public function create()
 	{
-		return view('post.create');
+		$categories = Category::all();
+		$tags = Tag::all();
+		return view('post.create', compact('categories', 'tags'));
 //		$postsArr = [
 //			[
 //				'title' => 'Title of post from Phpstorm',
@@ -70,15 +74,23 @@ class PostController extends Controller
 	}
 
 	//	http://first-project.loc/posts/update
-	public function update(Post $post)
+	public function update(Post $post): RedirectResponse
 	{
 		$data = request()->validate([
 			'title' => 'required|string',
 			'content' => 'string',
 			'image' => 'string',
+			'category_id' => '',
+			'tags' => '',
 		]);
+		$tags = $data['tags'];
+		unset($data['tags']);
 		// Далее, обновляем данные этой записи:
 		$post->update($data);
+
+		// Нужно чтобы все старые Теги удалялись. И добавлялись Теги которые приходят:	attach здесь уже не подойдёт
+		$post->tags()->sync($tags);	// sync() по сути дела, он все моменты что существовали до этого удаляет, и прибавляет только те что приходят
+
 		return redirect()->route('post.show', $post->id);
 	}
 	public function update2()
@@ -171,9 +183,24 @@ class PostController extends Controller
 			'title' => 'required|string',
 			'content' => 'string',
 			'image' => 'string',
+			'category_id' => '',
+			'tags' => '',
 		]);
 		//dd($data);
-		Post::create($data);
+		$tags = $data['tags'];
+		unset($data['tags']);
+
+		$post = Post::create($data);
+
+//		foreach($tags as $tag)
+//			PostTag::firstOrCreate([
+//				'tag_id' => $tag->id,
+//				'post_id' => $post->id,
+//			]);
+		// Способ более профессиональный:	И для него должен быть создан нами метод отношений tags() в модели Post.php
+		// Но это не вставит данные во временные поля: время создания, изменения. Да и эти поля обычно не нужны, их удаляют
+		// Этот метод может выполнять две задачи: 1) Если обращаться $post->tags - вернёт массив полученных значений. 2) Если обращаться $post->tags() - сохраняем запрос в базу и можем продолжить этот запрос
+		$post->tags()->attach($tags);
 		return redirect()->route('post.index');
 	}
 
@@ -184,7 +211,9 @@ class PostController extends Controller
 	}
 	public function edit(Post $post): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
 	{
+		$categories = Category::all();
+		$tags = Tag::all();
 		//dd($post);
-		return view('post.edit', compact('post'));
+		return view('post.edit', compact('post', 'categories', 'tags'));
 	}
 }
