@@ -7,9 +7,17 @@ use App\Http\Requests\Post\UpdateRequest;
 use App\Models\Post;
 use Illuminate\Http\RedirectResponse;
 
-class UpdateController extends Controller
+class UpdateController extends BaseController
 {
 	public function __invoke(UpdateRequest $request, Post $post): RedirectResponse
+	{
+		$data = $request->validated();
+		$this->service->update($post, $data);	// Вся логика работы с базой перенесена в сервис, метод update() класса Service
+		// После добавления данных, логично перенаправить на страницу сообщения, указав его id-номер:
+		return redirect()->route('post.show', $post->id);
+	}
+
+	public function __invoke2(UpdateRequest $request, Post $post): RedirectResponse
 	{
 		$data = $request->validated();
 		$tags = $data['tags'];
