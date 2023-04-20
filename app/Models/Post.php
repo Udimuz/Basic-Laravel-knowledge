@@ -18,10 +18,20 @@ class Post extends Model
 
 	public function category()
 	{
+		return $this->belongsTo(Category::class);
+	}
+
+	public function category_1()
+	{
 		return $this->belongsTo(Category::class, 'category_id', 'id');
 	}
 
 	public function tags()
+	{
+		return $this->belongsToMany(Tag::class);
+	}
+
+	public function tags_1()
 	{
 		return $this->belongsToMany(Tag::class, 'post_tags', 'post_id', 'tag_id');
 	}
