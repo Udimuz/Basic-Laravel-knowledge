@@ -9,6 +9,7 @@ use App\Models\Tag;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
+// бОльшая часть методов отсюда перенесены в отдельные контроллеры, которые в папке "app/Http/Controllers/Post"
 class PostController extends Controller
 {
 	//	http://first-project.loc/posts
