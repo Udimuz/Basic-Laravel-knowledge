@@ -21,4 +21,5 @@
     <li>25. Однометодные контроллеры</li>
     <li>26. Класс Request</li>
     <li>27. Класс Service</li>
+    <li>28. Factory и Seed</li>
 </ul>

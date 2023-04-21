@@ -10,7 +10,7 @@ class Service
 
 	public function store($data): void
 	{
-		$tags = $data['tags'];
+		$tags = $data['tags'] ?? [];
 		unset($data['tags']);
 		$post = Post::create($data);
 		// Должен быть создан нами метод отношений tags() в модели Post.php
