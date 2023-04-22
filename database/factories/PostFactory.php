@@ -21,7 +21,7 @@ class PostFactory extends Factory
 			'content' => fake()->text(255),
 			'image' => fake()->imageUrl,
 			'likes' => random_int(1,1000),	// Создадим случайную цифру
-			'is_published' => 1,
+			'is_published' => random_int(0,1),
 			'category_id' => \App\Models\Category::get()->random()->id,	// Тоже выведет случайное значение из существующих Категорий
 		];
     }

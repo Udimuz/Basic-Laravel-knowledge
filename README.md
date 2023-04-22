@@ -23,4 +23,5 @@
     <li>27. Класс Service</li>
     <li>28. Factory и Seed</li>
     <li>29. Пагинация</li>
+    <li>30. Фильтрация данных</li>
 </ul>

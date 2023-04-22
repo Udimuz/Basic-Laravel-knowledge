@@ -2,6 +2,8 @@
 
 namespace App\Services\Post;
 
+use App\Http\Filters\PostFilter;
+use App\Http\Requests\Post\FilterRequest;
 use App\Models\Post;
 
 class Service
@@ -29,9 +31,40 @@ class Service
 		$post->tags()->sync($tags);	// sync() по сути дела, он все моменты что существовали до этого удаляет, и прибавляет только те что приходят
 	}
 
-	public function posts_list()
+	public function posts_list(FilterRequest $request) {
+		// Фильтрация - делаем отсеивание данных:
+		$data = $request->validated();
+
+		$filter = app()->make(PostFilter::class, ['queryParams' => array_filter($data)]);
+		// $posts = Post::filter($filter)->get();	// Этот filter() появился у модели Post потому что мы ему передели Trait по имени use "Filterable", а у него есть метод filter()
+		// dd($posts);
+		return Post::filter($filter)->paginate(10);
+	}
+
+	public function posts_list1(FilterRequest $request)
 	{
-		$posts = Post::paginate(10);
+		// Фильтрация - делаем отсеивание данных:
+		$data = $request->validated();
+
+		$page = $data['page'] ?? 1;		// Так отлавливается, какая страница на данный момент открыта
+		$perPage = $data['per_page'] ?? 10;
+		// Не забыть эти параметры 'page', 'per_page' добавить в фильтр FilterRequest
+
+		//$posts = Post::paginate(10);
+//		$posts = Post::where('is_published', 1)
+//			->paginate(10);
+		$query = Post::query();
+
+		//	http://first-project.loc/posts?category_id=2
+		if (isset($data['category_id']))
+			$query->where('category_id', $data['category_id']);
+
+		// http://first-project.loc/posts?category_id=19&title=um	http://first-project.loc/posts?title=um
+		if (isset($data['title']))
+			$query->where('title', 'like', "%{$data['title']}%");
+
+		//$posts = $query->get();	dd($posts);
+		$posts = $query->paginate(3);
 		return $posts;
 	}
 }

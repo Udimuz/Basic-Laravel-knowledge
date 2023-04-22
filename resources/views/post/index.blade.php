@@ -28,5 +28,5 @@
         @endforeach
         </tbody>
     </table>
-    {{ $posts->links() }}
+    <div class="mt-4">{{ $posts->withQueryString()->links() }}</div>
 @endsection
