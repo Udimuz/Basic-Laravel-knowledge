@@ -24,4 +24,5 @@
     <li>28. Factory и Seed</li>
     <li>29. Пагинация</li>
     <li>30. Фильтрация данных</li>
+    <li>31. Admin LTE</li>
 </ul>

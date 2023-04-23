@@ -29,12 +29,23 @@ Route::group(['prefix'=>'posts', 'namespace'=>'App\Http\Controllers\Post'], func
 	Route::delete('/{post}', 'DestroyController')->name('post.delete');
 });
 
+// Раздел Админки:	prefix - добавит везде к ссылке впереди адрес "/admin/". Это чтобы не создавать такие роуты '/admin/post', '/admin/add', а сократить
+Route::group(['namespace'=>'App\Http\Controllers\Admin', 'prefix'=>'admin'], function() {	// , 'middleware'=>'admin'
+	//Route::get('/admin', [App\Http\Controllers\AdminController::class, 'index'])->name('main.index');
+	//Route::get('/admin', 'IndexController')->name('main.index');
+	Route::group(['namespace'=>'Post'], function(){
+		// Чтобы страница запускалась по адресу "/admin/post"
+		Route::get('/post', 'IndexController')->name('admin.post.index');
+	});
+});
+
 Route::get('/posts/update', [PostController::class, 'update']);
 Route::get('/posts/delete', [PostController::class, 'delete']);
 Route::get('/posts/first_or_create', [PostController::class, 'firstOrCreate']);
 Route::get('/posts/update_or_create', [PostController::class, 'updateOrCreate']);
 
-
+// Здесь разместим начальную страницу AdminLTE:
 Route::get('/main', [\App\Http\Controllers\MainController::class, 'index'])->name('main.index');
+
 Route::get('/contact', [\App\Http\Controllers\ContactController::class, 'index'])->name('contact.index');
 Route::get('/about', [\App\Http\Controllers\AboutController::class, 'index'])->name('about.index');
