@@ -35,8 +35,31 @@ class Service
 		// Фильтрация - делаем отсеивание данных:
 		$data = $request->validated();
 
+		$page = $data['page'] ?? 1;		// Так отлавливается, какая страница на данный момент открыта
+		$perPage = $data['per_page'] ?? 10;
+		// Не забыть эти параметры 'page', 'per_page' добавить в фильтр FilterRequest
+
 		$filter = app()->make(PostFilter::class, ['queryParams' => array_filter($data)]);
-		// $posts = Post::filter($filter)->get();	// Этот filter() появился у модели Post потому что мы ему передели Trait по имени use "Filterable", а у него есть метод filter()
+		return Post::filterPaginate($filter, $perPage, $page);
+	}
+
+	public function posts_list3(FilterRequest $request) {
+		// Фильтрация - делаем отсеивание данных:
+		$data = $request->validated();
+
+		$filter = app()->make(PostFilter::class, ['queryParams' => array_filter($data)]);
+		// Этот filter() появился у модели Post потому что мы ему передали Trait по имени use "Filterable", а у него есть метод filter()
+		// Здесь можно было и на скоуп отправить, но из-за одной небольшой строки, я не стал:	Post::filterPaginate($filter, $perPage, $page);
+		return Post::filter($filter)->with('tags', 'category')->paginate(10);
+	}
+
+	public function posts_list2(FilterRequest $request) {
+		// Фильтрация - делаем отсеивание данных:
+		$data = $request->validated();
+
+		$filter = app()->make(PostFilter::class, ['queryParams' => array_filter($data)]);
+		// Этот filter() появился у модели Post потому что мы ему передали Trait по имени use "Filterable", а у него есть метод filter()
+		// $posts = Post::filter($filter)->get()
 		// dd($posts);
 		return Post::filter($filter)->paginate(10);
 	}

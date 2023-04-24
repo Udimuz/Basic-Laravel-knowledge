@@ -16,6 +16,10 @@ class IndexController extends BaseController
 		// $posts = Post::paginate(10);
 		// 21.04.2023 перенёс работу в сервисы:
 		$posts = $this->service->posts_list($request);
+		//$posts = Post::all();
+		//$posts = Post::allPaginate(10);		//	dd($posts);		// relations
+		// $posts = Post::paginate(10);
+		//$posts = Post::with('tags', 'category')->paginate(10);
 		return view('post.index', compact('posts'));
     }
 }
