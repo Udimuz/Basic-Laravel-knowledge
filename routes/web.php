@@ -4,9 +4,8 @@ use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () { return view('welcome'); });
+Route::get('/', [\App\Http\Controllers\HomeController::class, 'index']);
 
 //Route::get('/posts', [\App\Http\Controllers\PostController::class, 'index'])->name('post.index');
 //Route::get('/posts/create', [PostController::class, 'create'])->name('post.create');
@@ -49,3 +48,7 @@ Route::get('/main', [\App\Http\Controllers\MainController::class, 'index'])->nam
 
 Route::get('/contact', [\App\Http\Controllers\ContactController::class, 'index'])->name('contact.index');
 Route::get('/about', [\App\Http\Controllers\AboutController::class, 'index'])->name('about.index');
+
+Auth::routes();	// Похоже, эта вещь и включает маршруты с авторизацией. И там есть ->name('login')
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
