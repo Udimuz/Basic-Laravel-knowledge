@@ -28,4 +28,5 @@
     <li>Scope - оптимизация</li>
     <li>32. Подключение авторизации Laravel</li>
     <li>33. Класс авторизации Middleware</li>
+    <li>34. Класс Policy</li>
 </ul>

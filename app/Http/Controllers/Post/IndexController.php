@@ -10,6 +10,9 @@ class IndexController extends BaseController
 {
 	public function __invoke(FilterRequest $request): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
 	{
+		// Здесь проверял на админа работу Policy, который был создан с привязкой к модели User:
+		// $this->authorize('view', auth()->user());
+
 		// $data = $request->validated();
 		//dd($data);
 		// $posts = Post::all();
