@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 
 //Route::get('/', function () { return view('welcome'); });
-Route::get('/', [\App\Http\Controllers\HomeController::class, 'index']);
+Route::get('/', [\App\Http\Controllers\HomeController::class, 'index'])->name('main');
 
 //Route::get('/posts', [\App\Http\Controllers\PostController::class, 'index'])->name('post.index');
 //Route::get('/posts/create', [PostController::class, 'create'])->name('post.create');
@@ -29,12 +29,13 @@ Route::group(['prefix'=>'posts', 'namespace'=>'App\Http\Controllers\Post'], func
 });
 
 // Раздел Админки:	prefix - добавит везде к ссылке впереди адрес "/admin/". Это чтобы не создавать такие роуты '/admin/post', '/admin/add', а сократить
-Route::group(['namespace'=>'App\Http\Controllers\Admin', 'prefix'=>'admin'], function() {	// , 'middleware'=>'admin'
+Route::group(['namespace'=>'App\Http\Controllers\Admin', 'prefix'=>'admin', 'middleware'=>'das_admin'], function() {
 	//Route::get('/admin', [App\Http\Controllers\AdminController::class, 'index'])->name('main.index');
 	//Route::get('/admin', 'IndexController')->name('main.index');
 	Route::group(['namespace'=>'Post'], function(){
 		// Чтобы страница запускалась по адресу "/admin/post"
 		Route::get('/post', 'IndexController')->name('admin.post.index');
+		// http://first-project.loc/admin/post
 	});
 });
 

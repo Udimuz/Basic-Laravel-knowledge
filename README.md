@@ -27,4 +27,5 @@
     <li>31. Admin LTE</li>
     <li>Scope - оптимизация</li>
     <li>32. Подключение авторизации Laravel</li>
+    <li>33. Класс авторизации Middleware</li>
 </ul>
