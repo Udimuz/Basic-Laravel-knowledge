@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Post;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Post\StoreRequest;
+use App\Http\Resources\Post\PostResource;
 use App\Models\Post;
 
 class StoreController extends BaseController
@@ -11,7 +12,11 @@ class StoreController extends BaseController
 	public function __invoke(StoreRequest $request) {
 		$data = $request->validated();
 		// dd($data);	// Здесь смотрим входящие данные
-		$this->service->store($data);	// Вся логика работы с базой перенесена в сервис, метод store() класса Service
+		$post = $this->service->store($data);	// Вся логика работы с базой перенесена в сервис, метод store() класса Service
+
+		// для Rest API:
+		//return new PostResource($post);	// это будет всегда возвращать массив: "data":{}
+
 		// После добавления данных, лучше перенаправить на другую страницу:
 		return redirect()->route('post.index');
 	}

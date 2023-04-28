@@ -4,16 +4,26 @@ namespace App\Http\Controllers\Post;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Post\UpdateRequest;
+use App\Http\Resources\Post\PostResource;
 use App\Models\Post;
 use Illuminate\Http\RedirectResponse;
 
 class UpdateController extends BaseController
 {
-	public function __invoke(UpdateRequest $request, Post $post): RedirectResponse
+	public function __invoke(UpdateRequest $request, Post $post)	// : RedirectResponse
 	{
 		$data = $request->validated();
 		// dd($data);	// Здесь смотрим входящие данные
-		$this->service->update($post, $data);	// Вся логика работы с базой перенесена в сервис, метод update() класса Service
+		$post = $this->service->update($post, $data);	// Вся логика работы с базой перенесена в сервис, метод update() класса Service
+
+		// для Rest API:
+		// return new PostResource($post);	// это будет всегда возвращать массив: "data":{}
+//		return [
+//			'title' => $post->title,
+//			'content' => $post->content,
+//			'image' => $post->image,
+//		];
+
 		// После добавления данных, логично перенаправить на страницу сообщения, указав его id-номер:
 		return redirect()->route('post.show', $post->id);
 	}

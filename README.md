@@ -30,4 +30,5 @@
     <li>33. Класс авторизации Middleware</li>
     <li>34. Класс Policy</li>
     <li>35. Знакомство с приложением Postman</li>
+    <li>36. Класс Resource. Ответ с бека для Postman - Restful API</li>
 </ul>

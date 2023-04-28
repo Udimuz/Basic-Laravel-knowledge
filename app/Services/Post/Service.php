@@ -10,7 +10,7 @@ class Service
 {
 	// Теперь вся реализация с Базой данных у меня прописана в этих методах:
 
-	public function store($data): void
+	public function store($data)
 	{
 		$tags = $data['tags'] ?? [];
 		unset($data['tags']);
@@ -19,9 +19,11 @@ class Service
 		// Но это не вставит данные во временные поля: время создания, изменения. Да и эти поля обычно не нужны, их удаляют
 		// Этот метод может выполнять две задачи: 1) Если обращаться $post->tags - вернёт массив полученных значений. 2) Если обращаться $post->tags() - сохраняем запрос в базу и можем продолжить этот запрос
 		$post->tags()->attach($tags);
+
+		return $post;
 	}
 
-	public function update($post, $data): void
+	public function update(Post $post, $data): Post
 	{
 		$tags = $data['tags'] ?? [];
 		unset($data['tags']);
@@ -29,6 +31,8 @@ class Service
 		$post->update($data);
 		// Нужно чтобы все старые Теги удалялись. И добавлялись Теги которые приходят:	attach здесь уже не подойдёт
 		$post->tags()->sync($tags);	// sync() по сути дела, он все моменты что существовали до этого удаляет, и прибавляет только те что приходят
+
+		return $post->fresh();	// После обновления, советуют возвращать данные используя fresh(), но у меня и $post возвращало новые данные
 	}
 
 	public function posts_list(FilterRequest $request) {
