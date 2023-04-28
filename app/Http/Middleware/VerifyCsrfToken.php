@@ -12,6 +12,6 @@ class VerifyCsrfToken extends Middleware
      * @var array<int, string>
      */
     protected $except = [
-        //
+        '/posts', '/posts/*'	// регулярные выражение, чтобы отлавливать только цифры ID, у меня здесь не получилось
     ];
 }

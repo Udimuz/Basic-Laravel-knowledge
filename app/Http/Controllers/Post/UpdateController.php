@@ -12,6 +12,7 @@ class UpdateController extends BaseController
 	public function __invoke(UpdateRequest $request, Post $post): RedirectResponse
 	{
 		$data = $request->validated();
+		// dd($data);	// Здесь смотрим входящие данные
 		$this->service->update($post, $data);	// Вся логика работы с базой перенесена в сервис, метод update() класса Service
 		// После добавления данных, логично перенаправить на страницу сообщения, указав его id-номер:
 		return redirect()->route('post.show', $post->id);

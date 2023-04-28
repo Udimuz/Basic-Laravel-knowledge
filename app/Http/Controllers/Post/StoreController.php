@@ -10,6 +10,7 @@ class StoreController extends BaseController
 {
 	public function __invoke(StoreRequest $request) {
 		$data = $request->validated();
+		// dd($data);	// Здесь смотрим входящие данные
 		$this->service->store($data);	// Вся логика работы с базой перенесена в сервис, метод store() класса Service
 		// После добавления данных, лучше перенаправить на другую страницу:
 		return redirect()->route('post.index');
